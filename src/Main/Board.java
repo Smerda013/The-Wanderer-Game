@@ -12,6 +12,8 @@ public class Board extends JComponent implements KeyListener {
 
     int testBoxX;
     int testBoxY;
+    int saveX;
+    int saveY;
 
     public Board() {
         testBoxX = 0;
@@ -43,9 +45,33 @@ public class Board extends JComponent implements KeyListener {
             x=0;
             y+=72;
         }
-        PositionedImage hero = new PositionedImage("src/Models/gif/hero-down.gif", testBoxX, testBoxY);
-        hero.draw(graphics);
+        drawHero(graphics);
     }
+
+    private void drawHero(Graphics graphics) {
+        if (this.saveX< this.testBoxX) {
+            PositionedImage hero = new PositionedImage("src/Models/gif/hero-right.gif", testBoxX, testBoxY);
+            hero.draw(graphics);
+            this.saveY = this.testBoxY;
+            this.saveX = this.testBoxX;
+        } else if (this.saveX> this.testBoxX) {
+            PositionedImage hero = new PositionedImage("src/Models/gif/hero-left.gif", testBoxX, testBoxY);
+            hero.draw(graphics);
+            this.saveY = this.testBoxY;
+            this.saveX = this.testBoxX;
+        }else if (this.saveY > this.testBoxY) {
+            PositionedImage hero = new PositionedImage("src/Models/gif/hero-up.gif", testBoxX, testBoxY);
+            hero.draw(graphics);
+            this.saveY = this.testBoxY;
+            this.saveX = this.testBoxX;
+        }else {
+            PositionedImage hero = new PositionedImage("src/Models/gif/hero-down.gif", testBoxX, testBoxY);
+            hero.draw(graphics);
+            this.saveY = this.testBoxY;
+            this.saveX = this.testBoxX;
+        }
+    }
+
 
     public static void main(String[] args) {
         // Here is how you set up a new window and adding our board to it
@@ -78,32 +104,25 @@ public class Board extends JComponent implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         // When the up or down keys hit, we change the position of our box
-        if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W && testBoxY > 0) {
-            testBoxY -= 72;
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S && testBoxY < 648) {
-            testBoxY += 72;
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A && testBoxX > 0) {
-            testBoxX -= 72;
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D && testBoxX < 648) {
-            testBoxX += 72;
+        if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+            if (testBoxY > 0) {
+                testBoxY -= 72;
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+            if (testBoxY < 648) {
+                testBoxY += 72;
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
+            if (testBoxX > 0) {
+                testBoxX -= 72;
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+            if (testBoxX < 648) {
+                testBoxX += 72;
+            }
         }
         // and redraw to have a new picture with the new coordinates
         repaint();
 
     }
-
-    public static int[][] fillTheFloor() {
-        int[][] floor = new int[][]{{0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 1, 0, 1, 0, 1, 1, 0},
-                {0, 1, 1, 1, 0, 1, 0, 1, 1, 0},
-                {0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-                {1, 1, 1, 1, 0, 1, 1, 1, 1, 0},
-                {0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
-                {0, 0, 0, 0, 0, 1, 1, 0, 1, 0},
-                {0, 1, 1, 1, 0, 0, 0, 0, 1, 0},
-                {0, 0, 0, 1, 0, 1, 1, 0, 0, 0}};
-        return floor;
-    }
-
 }
