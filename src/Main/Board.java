@@ -21,20 +21,27 @@ public class Board extends JComponent implements KeyListener {
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
-        graphics.fillRect(testBoxX, testBoxY, 100, 100);
         // here you have a 720x720 canvas
         // you can create and draw an image using the class below e.g.
         int x =0;
         int y = 0;
+        int[][] floor = fillTheFloor();
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
+                if (floor[i][j] == 0){
                 PositionedImage image = new PositionedImage("src/Models/gif/floor.gif", x, y);
                 image.draw(graphics);
+                } else {
+                    PositionedImage image = new PositionedImage("src/Models/gif/wall.gif", x, y);
+                    image.draw(graphics);
+                }
                 x += 72;
             }
             x = 0;
             y +=72;
         }
+        PositionedImage hero = new PositionedImage("src/Models/gif/hero-down.gif", testBoxX, testBoxY);
+        hero.draw(graphics);
     }
 
     public static void main(String[] args) {
@@ -68,18 +75,31 @@ public class Board extends JComponent implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         // When the up or down keys hit, we change the position of our box
-        if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W ) {
-            testBoxY -= 100;
-        } else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S ) {
-            testBoxY += 100;
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A ){
-            testBoxX -= 100;
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D ){
-            testBoxX += 100;
+        if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W && testBoxY > 0) {
+                testBoxY -= 72;
+        } else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S && testBoxY < 648) {
+            testBoxY += 72;
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A && testBoxX > 0){
+            testBoxX -= 72;
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D && testBoxX < 648){
+            testBoxX += 72;
         }
         // and redraw to have a new picture with the new coordinates
         repaint();
 
+    }
+    public static int[][] fillTheFloor (){
+       int[][] floor = new int[][]{     {0,0,0,1,0,0,0,0,0,0},
+                                        {0,0,0,1,0,1,0,1,1,0},
+                                        {0,1,1,1,0,1,0,1,1,0},
+                                        {0,0,0,0,0,1,0,0,0,0},
+                                        {1,1,1,1,0,1,1,1,1,0},
+                                        {0,1,0,1,0,0,0,0,0,0},
+                                        {0,1,0,1,0,1,1,0,1,0},
+                                        {0,0,0,0,0,1,1,0,1,0},
+                                        {0,1,1,1,0,0,0,0,1,0},
+                                        {0,0,0,1,0,1,1,0,0,0}};
+       return floor;
     }
 
 }
