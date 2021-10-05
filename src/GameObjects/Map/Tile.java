@@ -10,4 +10,8 @@ public abstract class Tile {
     public boolean isStepable() {
         return stepable;
     }
+
+    public abstract String Status();
 }
+
+

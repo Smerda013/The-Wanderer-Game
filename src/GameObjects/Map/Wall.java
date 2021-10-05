@@ -7,4 +7,9 @@ public class Wall extends Tile {
     public Wall() {
         stepable = false;
     }
+
+    @Override
+    public String Status() {
+        return null;
+    }
 }

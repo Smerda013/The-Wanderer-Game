@@ -24,7 +24,7 @@ public class Board extends JComponent implements KeyListener {
         this.heroPosY = 0;
 
         // set the size of your draw board
-        setPreferredSize(new Dimension(720, 720));
+        setPreferredSize(new Dimension(720, 800));
         setVisible(true);
     }
 
@@ -60,7 +60,55 @@ public class Board extends JComponent implements KeyListener {
             x=0;
             y+=72;
         }
+        graphics.setColor(Color.red);
+        graphics.setFont(new Font("Times Roman",Font.PLAIN,20));
+        graphics.drawString(map.get(this.heroPosY,this.heroPosX).Status(),40,740);
+            drawBossStatus(graphics);
+            drawSkeletonStatus(graphics);
+
+        }
+
+    private void drawSkeletonStatus(Graphics graphics) {
+        try {
+            if (this.map.get(this.heroPosY - 1, this.heroPosX) instanceof Skeleton) {
+                graphics.drawString(this.map.get(this.heroPosY - 1, this.heroPosX).Status(), 40, 765);
+            } }catch (ArrayIndexOutOfBoundsException e){}
+        try {
+            if (this.map.get(this.heroPosY + 1, this.heroPosX) instanceof Skeleton){
+                graphics.drawString(this.map.get(this.heroPosY + 1, this.heroPosX).Status(),40,765);}}
+        catch (ArrayIndexOutOfBoundsException e){}
+        try {
+            if (this.map.get(this.heroPosY, this.heroPosX - 1) instanceof Skeleton){
+                graphics.drawString(this.map.get(this.heroPosY, this.heroPosX - 1).Status(),40,765);
+            }}catch (ArrayIndexOutOfBoundsException e){}
+        try {
+            if (this.map.get(this.heroPosY, this.heroPosX +1) instanceof Skeleton){
+                graphics.drawString(this.map.get(this.heroPosY,this.heroPosX + 1).Status(),40,765);
+            }}catch (ArrayIndexOutOfBoundsException e){}
     }
+
+    private void drawBossStatus(Graphics graphics){
+        try {
+            if (this.map.get(this.heroPosY - 1, this.heroPosX) instanceof Boss) {
+                graphics.drawString(this.map.get(this.heroPosY - 1, this.heroPosX).Status(), 40, 790);
+        } }catch (ArrayIndexOutOfBoundsException e){}
+        try {
+            if (this.map.get(this.heroPosY + 1, this.heroPosX) instanceof Boss){
+            graphics.drawString(this.map.get(this.heroPosY + 1, this.heroPosX).Status(),40,790);}}
+         catch (ArrayIndexOutOfBoundsException e){}
+        try {
+             if (this.map.get(this.heroPosY, this.heroPosX - 1) instanceof Boss){
+                graphics.drawString(this.map.get(this.heroPosY, this.heroPosX - 1).Status(),40,790);
+        }}catch (ArrayIndexOutOfBoundsException e){}
+        try {
+             if (this.map.get(this.heroPosY, this.heroPosX +1) instanceof Boss){
+                graphics.drawString(this.map.get(this.heroPosY,this.heroPosX + 1).Status(),40,790);
+        }}catch (ArrayIndexOutOfBoundsException e){}
+
+
+
+    }
+
 
     private void drawBoss(Graphics graphics, int x, int y) {
         PositionedImage skeleton = new PositionedImage("src/Models/boss.png", x, y);
