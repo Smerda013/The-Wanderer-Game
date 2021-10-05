@@ -1,8 +1,6 @@
 package Main;
 
-import GameObjects.Map.Floor;
-import GameObjects.Map.Map;
-import GameObjects.Map.Wall;
+import GameObjects.Map.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,16 +42,34 @@ public class Board extends JComponent implements KeyListener {
                 } else if (this.map.get(i,j) instanceof Wall){
                     PositionedImage image = new PositionedImage("src/Models/gif/wall.gif", x, y);
                     image.draw(graphics);
-                } else {
+                } else if (this.map.get(i,j) instanceof Hero) {
                     PositionedImage image = new PositionedImage("src/Models/gif/floor.gif", x, y);
                     image.draw(graphics);
                     drawHero(graphics);
+                } else if (this.map.get(i,j) instanceof Skeleton){
+                    PositionedImage image = new PositionedImage("src/Models/gif/floor.gif", x, y);
+                    image.draw(graphics);
+                    drawSkeleton(graphics,x,y);
+                } else {
+                    PositionedImage image = new PositionedImage("src/Models/gif/floor.gif", x, y);
+                    image.draw(graphics);
+                    drawBoss(graphics,x,y);
                 }
                 x+=72;
             }
             x=0;
             y+=72;
         }
+    }
+
+    private void drawBoss(Graphics graphics, int x, int y) {
+        PositionedImage skeleton = new PositionedImage("src/Models/boss.png", x, y);
+        skeleton.draw(graphics);
+    }
+
+    private void drawSkeleton(Graphics graphics, int x, int y) {
+        PositionedImage skeleton = new PositionedImage("src/Models/skeleton.png", x, y);
+        skeleton.draw(graphics);
     }
 
     private void drawHero(Graphics graphics) {
