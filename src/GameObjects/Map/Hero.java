@@ -6,16 +6,16 @@ public class Hero extends Creature {
     protected boolean key;
     protected int potions;
 
-    public Hero() {
+    public Hero( Shop shop) {
         Random randomNumber = new Random();
         this.stepable = false;
         this.level = 1;
-        this.maxHP = 20 + (3 * (1 + randomNumber.nextInt(7)));
+        this.maxHP = 20 + (3 * (1 + randomNumber.nextInt(7))) + shop.getVitalityUpgrade();
         this.currentHP = this.maxHP;
-        this.DP = 2 * (1 + randomNumber.nextInt(7));
-        this.SP = 5 + (1 + randomNumber.nextInt(7));
+        this.DP = 2 * (1 + randomNumber.nextInt(7)) + shop.getShieldUpgrade();
+        this.SP = 5 + (1 + randomNumber.nextInt(7)) + shop.getSwordUpgrade();
         this.key=false;
-        this.potions =1 ;
+        this.potions = shop.healthPointUpgrade;
     }
 
     public void usePotion (){

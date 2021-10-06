@@ -16,8 +16,8 @@ public class Board extends JComponent implements KeyListener {
     int saveY;
     int coins;
     MapLvl mapLvl = new MapLvl();
-    Map map = new Map(mapLvl.getLvl());
     Shop shop = new Shop();
+    Map map = new Map(mapLvl.getLvl(),this.shop);
     int heroPosX;
     int heroPosY;
 
@@ -53,7 +53,69 @@ public class Board extends JComponent implements KeyListener {
         try {
             drawPotion(graphics);
         }catch (NullPointerException e){}
+        drawShop(graphics);
 
+    }
+
+    private void drawShop(Graphics graphics) {
+        if (this.shop.isOpen()){
+            graphics.setColor(Color.BLACK);
+            graphics.fillRect(60, 100, 600, 500);
+            graphics.setColor(Color.WHITE);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 120));
+            graphics.drawString("STORE",150,205);
+            PositionedImage image1 = new PositionedImage("src/Models/sword.jpg", 100, 270);
+            image1.draw(graphics);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 18));
+            graphics.drawString("SWORD (SP+1)",82,400);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 15));
+            graphics.drawString("Price: " + this.shop.getSwordPrice() + " Coins",93,425);
+            graphics.drawString("For buy press \"1\"",93,450);
+            if (this.coins < this.shop.getSwordPrice()){
+                graphics.setFont(new Font("Times Roman", Font.PLAIN, 12));
+                graphics.setColor(Color.RED);
+                graphics.drawString("NOT ENOUGH MONEY!",75,475);
+            }
+            PositionedImage image2 = new PositionedImage("src/Models/shield.jpg", 240, 270);
+            image2.draw(graphics);
+            graphics.setColor(Color.WHITE);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 18));
+            graphics.drawString("SHIELD (DP+1)",225,400);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 15));
+            graphics.drawString("Price: " + this.shop.getShieldPrice() + " Coins",233,425);
+            graphics.drawString("For buy press \"2\"",233,450);
+            if (this.coins < this.shop.getShieldPrice()){
+                graphics.setFont(new Font("Times Roman", Font.PLAIN, 12));
+                graphics.setColor(Color.RED);
+                graphics.drawString("NOT ENOUGH MONEY!",220,475);
+            }
+            PositionedImage image3 = new PositionedImage("src/Models/hearth.jpg", 380, 270);
+            image3.draw(graphics);
+            graphics.setColor(Color.WHITE);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 18));
+            graphics.drawString("VITALITY (HP+1)",360,400);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 15));
+            graphics.drawString("Price: " + this.shop.getVitalityTrainingPrice() + " Coins",373,425);
+            graphics.drawString("For buy press \"3\"",373,450);
+            if (this.coins < this.shop.getVitalityTrainingPrice()) {
+                graphics.setFont(new Font("Times Roman", Font.PLAIN, 12));
+                graphics.setColor(Color.RED);
+                graphics.drawString("NOT ENOUGH MONEY!", 360, 475);
+            }
+            PositionedImage image4 = new PositionedImage("src/Models/PotionBigger.png", 520, 270);
+            image4.draw(graphics);
+            graphics.setColor(Color.WHITE);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 18));
+            graphics.drawString("POTION",535,400);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 15));
+            graphics.drawString("Price: " + this.shop.getHealthPotionPrice() + " Coins",513,425);
+            graphics.drawString("For buy press \"4\"",513,450);
+            if (this.coins < this.shop.getHealthPotionPrice()) {
+                graphics.setFont(new Font("Times Roman", Font.PLAIN, 12));
+                graphics.setColor(Color.RED);
+                graphics.drawString("NOT ENOUGH MONEY!", 500, 475);
+            }
+        }
     }
 
     private void drawPotion(Graphics graphics) {
@@ -332,13 +394,14 @@ public class Board extends JComponent implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_R) {
             if (map.isHeroDeath()) {
                 this.mapLvl = new MapLvl();
-                this.map = new Map(mapLvl.getLvl());
+                this.map = new Map(mapLvl.getLvl(),this.shop);
                 this.testBoxY = 0;
                 this.testBoxX = 0;
                 this.heroPosX = 0;
                 this.heroPosY = 0;
                 this.saveX = 0;
                 this.saveY = 0;
+                this.shop.setShopStatus(true);
             }
         } else if (e.getKeyCode() == KeyEvent.VK_X){
             if (this.map.isBossDeath() && this.map.getHero().isKey()) {
@@ -357,6 +420,25 @@ public class Board extends JComponent implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_P){
             if (!this.map.isHeroDeath()){
                 this.map.getHero().usePotion();
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (this.shop.isOpen())
+                this.shop.setShopStatus(false);
+        } else if (e.getKeyCode() == KeyEvent.VK_1){
+            if (this.shop.isOpen()){
+                coins =this.shop.buySword(this.coins);
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_2){
+            if (this.shop.isOpen()){
+                coins = this.shop.buyShield(coins);
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_3) {
+            if (this.shop.isOpen()) {
+                coins = this.shop.buyVitality(coins);
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_4) {
+            if (this.shop.isOpen()) {
+                coins = this.shop.buyPotion(coins);
             }
         }
             // and redraw to have a new picture with the new coordinates

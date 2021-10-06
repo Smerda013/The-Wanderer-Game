@@ -66,7 +66,7 @@ public class Shop {
             this.healthPotionPrice = this.healthPotionPrice * this.healthPotionPrice;
             return coins;
         }
-        return 0;
+        return coins;
     }
     public int buyShield (int coins){
         if (coins >= this.shieldPrice){
@@ -75,25 +75,28 @@ public class Shop {
             this.shieldPrice = this.shieldPrice * this.shieldPrice;
             return coins;
         }
-        return 0;
+        return coins;
     }
     public int buySword (int coins) {
         if (coins >= this.swordPrice) {
             this.swordUpgrade++;
             coins = coins - this.swordPrice;
-            this.shieldPrice = this.swordPrice * this.swordPrice;
+            this.swordPrice = this.swordPrice * this.swordPrice;
             return coins;
         }
-        return 0;
+        return coins;
     }
 
     public int buyVitality (int coins) {
         if (coins >= this.vitalityTrainingPrice) {
-            this.vitalityUpgrade++;
+            this.vitalityUpgrade+=10;
             coins = coins - this.vitalityTrainingPrice;
             this.vitalityTrainingPrice = this.vitalityTrainingPrice * this.vitalityTrainingPrice;
             return coins;
         }
-        return 0;
+        return coins;
+    }
+    public void setShopStatus(boolean status){
+        this.open = status;
     }
 }

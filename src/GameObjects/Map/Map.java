@@ -6,7 +6,7 @@ import java.util.Random;
 public class Map {
     Tile[][] floor;
 
-    public Map(int mapLvl) {
+    public Map(int mapLvl, Shop shop) {
         floor = new Tile[10][10];
         Random randomNumber = new Random();
         int counterSkeletons = 0, keyHolder = randomNumber.nextInt(3);
@@ -28,7 +28,7 @@ public class Map {
                 } else if (matrixForMap[i][j] == 1){
                     this.floor[i][j] = new Wall();
                 } else if (matrixForMap[i][j] == 2){
-                    this.floor[i][j] = new Hero();
+                    this.floor[i][j] = new Hero(shop);
                 } else if (matrixForMap[i][j] == 3){
                     if (counterSkeletons == keyHolder){
                         this.floor[i][j] = new Skeleton(mapLvl,true);
@@ -68,11 +68,7 @@ public class Map {
                 } else if (matrixForMap[i][j] == 1){
                     this.floor[i][j] = new Wall();
                 } else if (matrixForMap[i][j] == 2){
-                    if (mapLvl == 1) {
-                        this.floor[i][j] = new Hero();
-                    } else {
                         this.floor[i][j] = oldHero;
-                    }
                 } else if (matrixForMap[i][j] == 3){
                     if (counterSkeletons == keyHolder){
                         this.floor[i][j] = new Skeleton(mapLvl,true);
