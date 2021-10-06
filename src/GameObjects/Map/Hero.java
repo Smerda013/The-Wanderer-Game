@@ -17,6 +17,22 @@ public class Hero extends Creature {
         this.key=false;
         this.potions = shop.healthPointUpgrade;
     }
+    public void maxHPSetter(int number){
+        this.maxHP += number;
+        this.currentHP = this.maxHP;
+    }
+
+    public void SPSetter(int number){
+        this.SP += number;
+    }
+
+    public void DPSetter(int number){
+        this.DP += number;
+    }
+
+    public void PotionSetter(int number){
+        this.potions += number;
+    }
 
     public void usePotion (){
         if (this.potions > 0){

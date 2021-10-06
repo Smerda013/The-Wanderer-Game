@@ -115,7 +115,11 @@ public class Board extends JComponent implements KeyListener {
                 graphics.setColor(Color.RED);
                 graphics.drawString("NOT ENOUGH MONEY!", 500, 475);
             }
+            graphics.setColor(Color.WHITE);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 30));
+            graphics.drawString("Press ENTER to exit the shop",150,550);
         }
+
     }
 
     private void drawPotion(Graphics graphics) {
@@ -427,18 +431,22 @@ public class Board extends JComponent implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_1){
             if (this.shop.isOpen()){
                 coins =this.shop.buySword(this.coins);
+                this.map.getHero().SPSetter(1);
             }
         } else if (e.getKeyCode() == KeyEvent.VK_2){
             if (this.shop.isOpen()){
                 coins = this.shop.buyShield(coins);
+                this.map.getHero().DPSetter(1);
             }
         } else if (e.getKeyCode() == KeyEvent.VK_3) {
             if (this.shop.isOpen()) {
                 coins = this.shop.buyVitality(coins);
+                this.map.getHero().maxHPSetter(10);
             }
         } else if (e.getKeyCode() == KeyEvent.VK_4) {
             if (this.shop.isOpen()) {
                 coins = this.shop.buyPotion(coins);
+                this.map.getHero().PotionSetter(1);
             }
         }
             // and redraw to have a new picture with the new coordinates
