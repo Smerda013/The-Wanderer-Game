@@ -2,14 +2,10 @@ package Main;
 
 import GameObjects.Map.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class Board extends JComponent implements KeyListener {
 
@@ -17,7 +13,8 @@ public class Board extends JComponent implements KeyListener {
     int testBoxY;
     int saveX;
     int saveY;
-    Map map = new Map();
+    MapLvl mapLvl = new MapLvl();
+    Map map = new Map(mapLvl.getLvl());
     int heroPosX;
     int heroPosY;
 
@@ -45,6 +42,7 @@ public class Board extends JComponent implements KeyListener {
         try {
             drawKey(graphics,(Hero) this.map.get(this.map.heroY(),this.map.heroX()));
         } catch (Exception e){}
+        
     }
 
     private void drawKey(Graphics graphics, Hero hero) {
@@ -295,7 +293,8 @@ public class Board extends JComponent implements KeyListener {
             }
         } else if (e.getKeyCode() == KeyEvent.VK_R)
             if (map.isHeroDeath()){
-                this.map = new Map();
+                this.mapLvl = new MapLvl();
+                this.map = new Map(mapLvl.getLvl());
                 this.testBoxY =0;
                 this.testBoxX =0;
                 this.heroPosX =0;
