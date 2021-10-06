@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Hero extends Creature {
     protected boolean key;
+    protected int potions;
 
     public Hero() {
         Random randomNumber = new Random();
@@ -14,14 +15,25 @@ public class Hero extends Creature {
         this.DP = 2 * (1 + randomNumber.nextInt(7));
         this.SP = 5 + (1 + randomNumber.nextInt(7));
         this.key=false;
+        this.potions =1 ;
+    }
+
+    public void usePotion (){
+        if (this.potions > 0){
+            this.currentHP += 10;
+            this.potions--;
+            if (this.currentHP > this.maxHP){
+                this.currentHP = this.maxHP;
+            }
+        }
     }
 
     public boolean isKey() {
         return key;
     }
 
-    public void getKey(){
-        this.key = true;
+    public void getKey(boolean key){
+        this.key = key;
     }
 
     public String Status(){
@@ -30,6 +42,10 @@ public class Hero extends Creature {
 
     public int getDP(){
         return this.DP;
+    }
+
+    public int getPotions() {
+        return potions;
     }
 
     public int Strike(Enemy enemy){
@@ -52,11 +68,28 @@ public class Hero extends Creature {
         this.DP = this.DP + (1+randomNumber.nextInt(7));
         int newHP = 1 + randomNumber.nextInt(7);
         this.maxHP += newHP;
-        this.currentHP +=newHP;
     }
 
     public int getCurrentHP(){
         return this.currentHP;
+    }
+
+    public void healing(){
+        Random randomNumber = new Random();
+        int healing = randomNumber.nextInt(101);
+        if (healing <= 10 ){
+            this.currentHP = this.maxHP;
+        } else if (healing <= 50){
+            this.currentHP = currentHP +(int) Math.ceil((double) maxHP/3);
+            if (this.currentHP > this.maxHP){
+                this.currentHP = this.maxHP;
+            }
+        }else {
+            this.currentHP = currentHP + (int) Math.ceil((double) this.currentHP/ 10);
+            if (this.currentHP > this.maxHP){
+                this.currentHP = this.maxHP;
+            }
+        }
     }
 
 }

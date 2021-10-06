@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 public class Board extends JComponent implements KeyListener {
 
@@ -13,12 +14,15 @@ public class Board extends JComponent implements KeyListener {
     int testBoxY;
     int saveX;
     int saveY;
+    int coins;
     MapLvl mapLvl = new MapLvl();
     Map map = new Map(mapLvl.getLvl());
+    Shop shop = new Shop();
     int heroPosX;
     int heroPosY;
 
     public Board() {
+        coins = 0;
         testBoxX = 0;
         testBoxY = 0;
         this.heroPosX = 0;
@@ -42,12 +46,45 @@ public class Board extends JComponent implements KeyListener {
         try {
             drawKey(graphics,(Hero) this.map.get(this.map.heroY(),this.map.heroX()));
         } catch (Exception e){}
-        
+        try {
+            drawNextLvl(graphics,(Hero) this.map.get(this.map.heroY(),this.map.heroX()));
+        }catch (ClassCastException e){}
+            drawCoins(graphics);
+        try {
+            drawPotion(graphics);
+        }catch (NullPointerException e){}
+
+    }
+
+    private void drawPotion(Graphics graphics) {
+        PositionedImage image = new PositionedImage("src/Models/Potion.jpg", 400, 766);
+        image.draw(graphics);
+        graphics.setColor(Color.RED);
+        graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
+        graphics.drawString("X" + this.map.getHero().getPotions(),445,793);
+    }
+
+    private void drawCoins(Graphics graphics) {
+        PositionedImage image = new PositionedImage("src/Models/coin.jpg", 400, 725);
+        image.draw(graphics);
+        graphics.setColor(Color.RED);
+        graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
+        graphics.drawString("X" + this.coins,445,752);
+    }
+
+    private void drawNextLvl(Graphics graphics, Hero hero) {
+        if (hero.isKey() && this.map.isBossDeath()){
+            graphics.setColor(Color.BLACK);
+            graphics.fillRect(120,680,450,30);
+            graphics.setColor(Color.WHITE);
+            graphics.setFont(new Font("Times Roman", Font.PLAIN, 20));
+            graphics.drawString("Congratulation! For move to the next level press X ", 130, 700);
+        }
     }
 
     private void drawKey(Graphics graphics, Hero hero) {
             if (hero.isKey()) {
-                PositionedImage image = new PositionedImage("src/Models/Key.jpg", 680, 730);
+                PositionedImage image = new PositionedImage("src/Models/Key.jpg", 680, 740);
                 image.draw(graphics);
             }
         }
@@ -106,9 +143,10 @@ public class Board extends JComponent implements KeyListener {
     private void battle(Hero hero, Enemy enemy,int y, int x) {
        if (hero.Strike(enemy) < 1){
            if (enemy.isKeyHolder()){
-               hero.getKey();
+               hero.getKey(true);
            }
-           hero.levelUp();
+           Random randomNumber = new Random();
+           coins = coins + (1 + randomNumber.nextInt(4));
            map.enemyDeath(y,x);
        }
         if (enemy.Strike(hero) < 1){
@@ -269,13 +307,13 @@ public class Board extends JComponent implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             try {
                 if (this.map.get(this.heroPosY - 1, this.heroPosX) instanceof Enemy) {
-                    battle((Hero) this.map.get(this.heroPosY, this.heroPosX), (Enemy) this.map.get(this.heroPosY - 1, this.heroPosX),this.heroPosY - 1,this.heroPosX);
+                    battle((Hero) this.map.get(this.heroPosY, this.heroPosX), (Enemy) this.map.get(this.heroPosY - 1, this.heroPosX), this.heroPosY - 1, this.heroPosX);
                 }
             } catch (ArrayIndexOutOfBoundsException exception) {
             }
             try {
                 if (this.map.get(this.heroPosY + 1, this.heroPosX) instanceof Enemy) {
-                    battle((Hero) this.map.get(this.heroPosY, this.heroPosX), (Enemy) this.map.get(this.heroPosY + 1, this.heroPosX),this.heroPosY + 1,this.heroPosX);
+                    battle((Hero) this.map.get(this.heroPosY, this.heroPosX), (Enemy) this.map.get(this.heroPosY + 1, this.heroPosX), this.heroPosY + 1, this.heroPosX);
                 }
             } catch (ArrayIndexOutOfBoundsException exception) {
             }
@@ -287,22 +325,40 @@ public class Board extends JComponent implements KeyListener {
             }
             try {
                 if (this.map.get(this.heroPosY, this.heroPosX + 1) instanceof Enemy) {
-                    battle((Hero) this.map.get(this.heroPosY, this.heroPosX), (Enemy) this.map.get(this.heroPosY, this.heroPosX + 1),this.heroPosY,this.heroPosX + 1);
+                    battle((Hero) this.map.get(this.heroPosY, this.heroPosX), (Enemy) this.map.get(this.heroPosY, this.heroPosX + 1), this.heroPosY, this.heroPosX + 1);
                 }
             } catch (ArrayIndexOutOfBoundsException exception) {
             }
-        } else if (e.getKeyCode() == KeyEvent.VK_R)
-            if (map.isHeroDeath()){
+        } else if (e.getKeyCode() == KeyEvent.VK_R) {
+            if (map.isHeroDeath()) {
                 this.mapLvl = new MapLvl();
                 this.map = new Map(mapLvl.getLvl());
-                this.testBoxY =0;
-                this.testBoxX =0;
-                this.heroPosX =0;
-                this.heroPosY =0;
-                this.saveX =0;
+                this.testBoxY = 0;
+                this.testBoxX = 0;
+                this.heroPosX = 0;
+                this.heroPosY = 0;
+                this.saveX = 0;
                 this.saveY = 0;
             }
-
+        } else if (e.getKeyCode() == KeyEvent.VK_X){
+            if (this.map.isBossDeath() && this.map.getHero().isKey()) {
+                this.map.getHero().levelUp();
+                this.map.getHero().healing();
+                this.map.getHero().getKey(false);
+                this.mapLvl.setLvl(this.mapLvl.getLvl() + 1);
+                this.map = new Map(mapLvl.getLvl(), this.map.saveHero(this.heroPosY, this.heroPosX));
+                this.testBoxY = 0;
+                this.testBoxX = 0;
+                this.heroPosX = 0;
+                this.heroPosY = 0;
+                this.saveX = 0;
+                this.saveY = 0;
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_P){
+            if (!this.map.isHeroDeath()){
+                this.map.getHero().usePotion();
+            }
+        }
             // and redraw to have a new picture with the new coordinates
             repaint();
         }
