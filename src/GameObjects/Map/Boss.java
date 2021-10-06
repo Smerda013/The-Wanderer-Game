@@ -18,4 +18,14 @@ public class Boss extends Enemy {
     public String Status() {
         return "Boss (Level " + this.level + ") HP: " + this.currentHP + "/" + this.maxHP + " | DP:" + this.DP + " | SP:" + this.SP;
     }
+
+    @Override
+    public int getCurrentHP() {
+        return this.currentHP;
+    }
+
+    @Override
+    public boolean isKeyHolder() {
+        return false;
+    }
 }

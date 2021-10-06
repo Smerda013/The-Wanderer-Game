@@ -11,4 +11,9 @@ public class Floor extends Tile {
     public String Status() {
         return null;
     }
+
+    @Override
+    public int getCurrentHP() {
+        return 0;
+    }
 }

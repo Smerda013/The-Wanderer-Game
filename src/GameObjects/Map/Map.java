@@ -1,13 +1,17 @@
 package GameObjects.Map;
 
 
+import java.util.Random;
+
 public class Map {
     Tile[][] floor;
 
     public Map() {
         floor = new Tile[10][10];
+        Random randomNumber = new Random();
+        int counterSkeletons = 0, keyHolder = randomNumber.nextInt(3);
         int[][] matrixForMap = new int[][]
-                {{2, 0, 0, 1, 0, 0, 0, 0, 0, 4},
+                {{2,0, 0, 1, 0, 0, 0, 0, 0, 4},
                 {0, 0, 0, 1, 0, 1, 0, 1, 1, 0},
                 {0, 1, 1, 1, 0, 1, 0, 1, 1, 0},
                 {0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
@@ -17,7 +21,6 @@ public class Map {
                 {0, 0, 3, 0, 0, 1, 1, 0, 1, 0},
                 {0, 1, 1, 1, 0, 0, 0, 0, 1, 0},
                 {0, 0, 0, 1, 3, 1, 1, 0, 0, 0}};
-
         for (int i = 0; i < matrixForMap.length; i++) {
             for (int j = 0; j < matrixForMap[i].length; j++) {
                 if (matrixForMap[i][j] == 0) {
@@ -27,7 +30,13 @@ public class Map {
                 } else if (matrixForMap[i][j] == 2){
                     this.floor[i][j] = new Hero();
                 } else if (matrixForMap[i][j] == 3){
-                    this.floor[i][j] = new Skeleton();
+                    if (counterSkeletons == keyHolder){
+                        this.floor[i][j] = new Skeleton(true);
+                        counterSkeletons++;
+                    } else {
+                        this.floor[i][j] = new Skeleton();
+                        counterSkeletons++;
+                    }
                 } else {
                     this.floor[i][j] = new Boss();
                 }
@@ -58,5 +67,54 @@ public class Map {
         this.floor[i][j] = new Floor();
     }
 
+    public void enemyDeath(int y, int x){
+        this.floor[y][x] = new Floor();
+    }
+
+    public void heroDeath(int y, int x) {this.floor[y][x] = new Floor();}
+
+    public boolean isHeroDeath (){
+        for (int i = 0; i < this.floor.length; i++) {
+            for (int j = 0; j < this.floor[i].length; j++) {
+                if (this.floor[i][j] instanceof Hero){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public int heroY(){
+        for (int i = 0; i < this.floor.length; i++) {
+            for (int j = 0; j < this.floor[i].length; j++) {
+                if (this.floor[i][j] instanceof Hero){
+                    return i;
+                }
+            }
+        }
+        return 0;
+    }
+
+    public int heroX(){
+        for (int i = 0; i < this.floor.length; i++) {
+            for (int j = 0; j < this.floor[i].length; j++) {
+                if (this.floor[i][j] instanceof Hero){
+                    return j;
+                }
+            }
+        }
+        return 0;
+    }
+
+    public boolean isBossDeath (){
+        for (int i = 0; i < this.floor.length; i++) {
+            for (int j = 0; j < this.floor[i].length; j++) {
+                if (this.floor[i][j] instanceof Boss){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
 

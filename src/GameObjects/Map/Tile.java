@@ -12,6 +12,10 @@ public abstract class Tile {
     }
 
     public abstract String Status();
+
+    public abstract int getCurrentHP();
 }
+
+
 
 
