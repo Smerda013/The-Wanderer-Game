@@ -34,7 +34,7 @@ public class Board extends JComponent implements KeyListener {
         this.seCondName = this.map.getHero().getSecondName();
 
         // set the size of your draw board
-        setPreferredSize(new Dimension(720, 800));
+        setPreferredSize(new Dimension(720, 810));
         setVisible(true);
     }
 
@@ -60,11 +60,77 @@ public class Board extends JComponent implements KeyListener {
         }catch (NullPointerException e){}
         drawShop(graphics);
         drawCutscene(graphics);
+        drawDialogue(graphics);
 
+    }
+
+    private void drawDialogue(Graphics graphics) {
+        if (this.map.isTitle() && !this.shop.isOpen()){
+            graphics.setColor(Color.WHITE);
+            graphics.fillRect(25,685,650,30);
+            Random randomNumber = new Random();
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("Times Romans", Font.PLAIN, 15));
+            if (this.mapLvl.getLvl() == 1){
+                int chooser = randomNumber.nextInt(10);
+                if (chooser == 0){
+                    graphics.drawString("Let me introduce you " +this.firstName + this.seCondName + ". He is wanderer of the high quality. " ,30,705);
+                } else if (chooser == 1){
+                    graphics.drawString("Wanderer " + this.firstName + this.seCondName + " came to smash it! Just stay out of his way!",30,705);
+                } else if (chooser == 2){
+                    graphics.drawString("I know, that the other wanderers was disappointment, but " + this.firstName + this.seCondName + " is different!",30,705);
+                }else if (chooser == 3){
+                    graphics.drawString("Here he is! The best of the bests :" + this.firstName + this.seCondName+ ". Please clap your hands!", 30,705);
+                }else if (chooser == 4){
+                    graphics.drawString("I hope, that " + this.firstName + this.seCondName + " is not just another weak coward.",30,705);
+                }else if (chooser == 5){
+                    graphics.drawString("Oh my god! Is it him? " + this.firstName + this.seCondName + " Is real celebrity!",30,705);
+                }else if (chooser == 6){
+                    graphics.drawString("I hope that this unmoving enemies wil not hurt " + this.firstName + this.seCondName + " much.",30,705);
+                }else if (chooser == 7){
+                    graphics.drawString("And the story of wanderer " + this.firstName + this.seCondName + " begins! I'm so excited!",30,705);
+                }else if (chooser == 8){
+                    graphics.drawString("Bring your beer and popcorn! " + this.firstName + this.seCondName + " wil be on the fire!",30,705);
+                }else {
+                    graphics.drawString("It is another one? I already forget to count... Lets go" + this.firstName + this.seCondName + "!",30,705);
+                }
+            } else if (this.mapLvl.getLvl() == 5) {
+                int chooser = randomNumber.nextInt(6);
+                if (chooser == 0) {
+                    graphics.drawString("And " + this.firstName + this.seCondName + " is on the half way. I'm curious if he can make it! ", 30, 705);
+                } else if (chooser == 1) {
+                    graphics.drawString("Wanderer " + this.firstName + this.seCondName + " is doing great so far! I'm betting that he will make it!", 30, 705);
+                } else if (chooser == 2) {
+                    graphics.drawString("Sorry what is happening? I was on the bathroom. Is " + this.firstName + this.seCondName + " already dead?", 30, 705);
+                } else if (chooser == 3) {
+                    graphics.drawString("One beast after another! " + this.firstName + this.seCondName + " will have beautiful collection of heads.", 30, 705);
+                } else if (chooser == 4) {
+                    graphics.drawString("Yes! Yes! Common my beloved " + this.firstName + this.seCondName + ". Hope you can give me an autograph!", 30, 705);
+                } else {
+                    graphics.drawString(this.firstName + this.seCondName + " is really promising and i feel really good energy from him.", 30, 705);
+                }
+
+            }else if (this.mapLvl.getLvl() == 7) {
+                int chooser = randomNumber.nextInt(4);
+                if (chooser == 0) {
+                    graphics.drawString(this.firstName + this.seCondName + " is really close to the end of the crypt! Can he make it? Stay tuned!", 30, 705);
+                } else if (chooser == 1) {
+                    graphics.drawString("Did you see that? " + this.firstName + this.seCondName + " just smash them like god dammit flies!", 30, 705);
+                } else if (chooser == 2) {
+                    graphics.drawString("And the story of wanderer " + this.firstName + this.seCondName + " ends... wait what, he is still alive!?", 30, 705);
+                } else {
+                    graphics.drawString("I'm your father " + this.firstName + this.seCondName + "! Just kidding! Did you see his face? LOL!", 30, 705);
+                }
+            } else if (this.mapLvl.getLvl() == 10){
+                graphics.drawString(this.firstName + this.seCondName + " made it to the final floor of the crypt! Can he face the last challenge?", 30, 705);
+            }
+        }
     }
 
     private void drawCutscene(Graphics graphics) {
         if (this.map.isCutScene()){
+            graphics.setColor(Color.BLACK);
+            graphics.fillRect(0,720,720,90);
             if (cutsceneCounter == 0){
                 PositionedImage image = new PositionedImage("src/Models/forest.jpg", 0, 0);
                 image.draw(graphics);
@@ -242,20 +308,20 @@ public class Board extends JComponent implements KeyListener {
             graphics.fillRect(25,685,650,30);
             Random randomNumber = new Random();
             graphics.setColor(Color.BLACK);
-            graphics.setFont(new Font("Times Romans", Font.PLAIN, 20));
+            graphics.setFont(new Font("Times Romans", Font.PLAIN, 15));
             int chooser = randomNumber.nextInt(10);
             if (chooser == 0){
                 graphics.drawString("Wait what happened? Wanderer " +this.firstName + this.seCondName + " should survive!",30,705);
             } else if (chooser == 1){
                 graphics.drawString("Wanderer " + this.firstName + this.seCondName + " was real disappointment!",30,705);
             } else if (chooser == 2){
-                graphics.drawString("Another dead? I'm not going to tell this to wanderer's" + this.firstName + this.seCondName + " family!",30,705);
+                graphics.drawString("Another dead? I'm not going to tell this to wanderer's " + this.firstName + this.seCondName + " family!",30,705);
             }else if (chooser == 3){
                 graphics.drawString("Ou really? I put my money on wanderer " + this.firstName + this.seCondName,30,705);
             }else if (chooser == 4){
                 graphics.drawString("Yes I understand... Wanderer " + this.firstName + this.seCondName + " was just the weakeling.",30,705);
             }else if (chooser == 5){
-                graphics.drawString("Oh my god! Wanderer " + this.firstName + this.seCondName + "was so strong and he still died?",30,705);
+                graphics.drawString("Oh my god! Wanderer " + this.firstName + this.seCondName + " was so strong and he still died?",30,705);
             }else if (chooser == 6){
                 graphics.drawString("Ouch! That must hurt... I don't want to be in the skin of wanderer " + this.firstName + this.seCondName + "!",30,705);
             }else if (chooser == 7){
@@ -463,6 +529,7 @@ public class Board extends JComponent implements KeyListener {
                 this.map = new Map(mapLvl.getLvl(),this.shop,false);
                 this.firstName = this.map.getHero().getFirstName();
                 this.seCondName = this.map.getHero().getSecondName();
+                this.map.setTitle(true);
                 this.testBoxY = 0;
                 this.testBoxX = 0;
                 this.heroPosX = 0;
@@ -477,11 +544,29 @@ public class Board extends JComponent implements KeyListener {
                 this.map.getHero().healing();
                 this.map.getHero().getKey(false);
                 this.mapLvl.setLvl(this.mapLvl.getLvl() + 1);
-                this.map = new Map(mapLvl.getLvl(), this.map.saveHero(this.heroPosY, this.heroPosX));
-                this.testBoxY = 0;
+                if (this.mapLvl.getLvl() == 10){
+                    this.map = new FinalMap(mapLvl.getLvl(), this.map.saveHero(this.heroPosY, this.heroPosX));
+                } else {
+                    this.map = new Map(mapLvl.getLvl(), this.map.saveHero(this.heroPosY, this.heroPosX));
+                }
+                if (this.mapLvl.getLvl() == 5 || this.mapLvl.getLvl() == 7 || this.mapLvl.getLvl() == 10){
+                    this.map.setTitle(true);
+                }
+                if (this.mapLvl.getLvl() == 11){
+                    this.map.setCutScene(true);
+                }
+                if (this.mapLvl.getLvl() == 10){
+                    this.testBoxY = 5*72;
+                } else {
+                    this.testBoxY = 0;
+                }
                 this.testBoxX = 0;
                 this.heroPosX = 0;
-                this.heroPosY = 0;
+                if (this.mapLvl.getLvl() == 10) {
+                    this.heroPosY = 5;
+                } else {
+                    this.heroPosY = 0;
+                }
                 this.saveX = 0;
                 this.saveY = 0;
             }
@@ -497,28 +582,40 @@ public class Board extends JComponent implements KeyListener {
                 if (cutsceneCounter == 3){
                     cutsceneCounter = 0;
                     this.map.setCutScene(false);
+                    this.map.setTitle(true);
+
                 }
+            }else if (this.map.isTitle()){
+                this.map.setTitle(false);
             }
 
         } else if (e.getKeyCode() == KeyEvent.VK_1){
             if (this.shop.isOpen()){
-                coins =this.shop.buySword(this.coins);
-                this.map.getHero().SPSetter(1);
+                if (coins >= this.shop.getSwordPrice()) {
+                    coins = this.shop.buySword(this.coins);
+                    this.map.getHero().SPSetter(1);
+                }
             }
         } else if (e.getKeyCode() == KeyEvent.VK_2){
             if (this.shop.isOpen()){
-                coins = this.shop.buyShield(coins);
-                this.map.getHero().DPSetter(1);
+                if (coins >= this.shop.getShieldPrice()) {
+                    coins = this.shop.buyShield(coins);
+                    this.map.getHero().DPSetter(1);
+                }
             }
         } else if (e.getKeyCode() == KeyEvent.VK_3) {
             if (this.shop.isOpen()) {
-                coins = this.shop.buyVitality(coins);
-                this.map.getHero().maxHPSetter(10);
+                if (coins >= this.shop.getVitalityTrainingPrice()) {
+                    coins = this.shop.buyVitality(coins);
+                    this.map.getHero().maxHPSetter(10);
+                }
             }
         } else if (e.getKeyCode() == KeyEvent.VK_4) {
             if (this.shop.isOpen()) {
-                coins = this.shop.buyPotion(coins);
-                this.map.getHero().PotionSetter(1);
+                if (coins >= this.shop.getHealthPotionPrice()) {
+                    coins = this.shop.buyPotion(coins);
+                    this.map.getHero().PotionSetter(1);
+                }
             }
         }
             // and redraw to have a new picture with the new coordinates

@@ -6,10 +6,23 @@ import java.util.Random;
 public class Map {
     protected  Tile[][] floor;
     protected boolean cutScene;
+    protected boolean title;
 
-    public Map(int mapLvl, Shop shop,boolean cutscene) {
+    public Map() {
+    }
+
+    public boolean isTitle() {
+        return title;
+    }
+
+    public void setTitle(boolean title) {
+        this.title = title;
+    }
+
+    public Map(int mapLvl, Shop shop, boolean cutscene) {
         floor = new Tile[10][10];
         this.cutScene = cutscene;
+        this.title = false;
         Random randomNumber = new Random();
         int counterSkeletons = 0, keyHolder = randomNumber.nextInt(3);
         int[][] matrixForMap = new int[][]

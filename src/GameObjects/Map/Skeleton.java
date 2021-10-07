@@ -38,6 +38,7 @@ public class Skeleton extends Enemy{
         this.currentHP = this.maxHP;
         this.DP = (int) Math.ceil((double) this.level/2)*(1 + randomNumber.nextInt(7)) + (int) Math.ceil((double) 1 + randomNumber.nextInt(7))/2;
         this.SP = this.level * (1 + randomNumber.nextInt(7));
+        this.SP = 0;
         this.keyHolder = keyHolder;
     }
 
