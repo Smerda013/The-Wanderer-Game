@@ -5,9 +5,19 @@ import java.util.Random;
 public class Hero extends Creature {
     protected boolean key;
     protected int potions;
+    private String firstName;
+    private String secondName;
 
     public Hero( Shop shop) {
+        String[] firstName = {"Dick", "John", "George", "Mel", "Jack", "William", "Harry", "Phillip", "David", "Jackob", "Edward", "Francis", "Luke", "Lee", "Larry",
+                "Simon", "Cameron", "Logan", "Shawn", "Josh", "Karl", "Michael", "Scott",};
+        String[] secondName = {" Baker", " Blackbeard", " Gilmore", " Smith", " Johnson", " Williams", " Jordan", " Brown", " McDonald", " Jones", " Garcia", " Miller",
+                " Davies", " Rodriguez", " Lopez", " Drake", " Thomas", " Anderson", " Lee", " Martinez", " Gonzalez", " Young", " Allen"};
         Random randomNumber = new Random();
+        int name = randomNumber.nextInt(firstName.length);
+        this.firstName = firstName[name];
+        name = randomNumber.nextInt(secondName.length);
+        this.secondName = secondName[name];
         this.stepable = false;
         this.level = 1;
         this.maxHP = 20 + (3 * (1 + randomNumber.nextInt(7))) + shop.getVitalityUpgrade();
@@ -53,7 +63,7 @@ public class Hero extends Creature {
     }
 
     public String Status(){
-        return "Hero (Level " + this.level + ") HP: " + this.currentHP + "/" + this.maxHP + " | DP:" + this.DP + " | SP:" + this.SP;
+        return "Wanderer " + firstName + secondName + "(Level " + this.level + ") HP: " + this.currentHP + "/" + this.maxHP + " | DP:" + this.DP + " | SP:" + this.SP;
     }
 
     public int getDP(){
@@ -108,4 +118,11 @@ public class Hero extends Creature {
         }
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
 }

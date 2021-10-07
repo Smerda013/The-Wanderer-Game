@@ -4,10 +4,12 @@ package GameObjects.Map;
 import java.util.Random;
 
 public class Map {
-    Tile[][] floor;
+    protected  Tile[][] floor;
+    protected boolean cutScene;
 
-    public Map(int mapLvl, Shop shop) {
+    public Map(int mapLvl, Shop shop,boolean cutscene) {
         floor = new Tile[10][10];
+        this.cutScene = cutscene;
         Random randomNumber = new Random();
         int counterSkeletons = 0, keyHolder = randomNumber.nextInt(3);
         int[][] matrixForMap = new int[][]
@@ -48,6 +50,7 @@ public class Map {
 
     public Map(int mapLvl, Tile oldHero) {
         floor = new Tile[10][10];
+        this.cutScene = false;
         Random randomNumber = new Random();
         int counterSkeletons = 0, keyHolder = randomNumber.nextInt(3);
         int[][] matrixForMap = new int[][]
@@ -89,6 +92,11 @@ public class Map {
     public Tile saveHero(int y, int x){
         Tile oldHero = this.floor[y][x];
         return oldHero;
+    }
+
+    public Hero saveHeroHero(int y, int x){
+        Tile oldHero = this.floor[y][x];
+        return (Hero) oldHero;
     }
 
     public Tile get(int i, int j) {
@@ -175,5 +183,12 @@ public class Map {
         return null;
     }
 
+    public boolean isCutScene() {
+        return cutScene;
+    }
+
+    public void setCutScene(boolean cutScene) {
+        this.cutScene = cutScene;
+    }
 }
 

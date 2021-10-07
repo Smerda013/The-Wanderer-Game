@@ -17,9 +17,12 @@ public class Board extends JComponent implements KeyListener {
     int coins;
     MapLvl mapLvl = new MapLvl();
     Shop shop = new Shop();
-    Map map = new Map(mapLvl.getLvl(),this.shop);
+    Map map = new Map(mapLvl.getLvl(),this.shop,true);
     int heroPosX;
     int heroPosY;
+    int cutsceneCounter;
+    String firstName;
+    String seCondName;
 
     public Board() {
         coins = 0;
@@ -27,6 +30,8 @@ public class Board extends JComponent implements KeyListener {
         testBoxY = 0;
         this.heroPosX = 0;
         this.heroPosY = 0;
+        this.firstName = this.map.getHero().getFirstName();
+        this.seCondName = this.map.getHero().getSecondName();
 
         // set the size of your draw board
         setPreferredSize(new Dimension(720, 800));
@@ -54,7 +59,37 @@ public class Board extends JComponent implements KeyListener {
             drawPotion(graphics);
         }catch (NullPointerException e){}
         drawShop(graphics);
+        drawCutscene(graphics);
 
+    }
+
+    private void drawCutscene(Graphics graphics) {
+        if (this.map.isCutScene()){
+            if (cutsceneCounter == 0){
+                PositionedImage image = new PositionedImage("src/Models/forest.jpg", 0, 0);
+                image.draw(graphics);
+                graphics.setColor(Color.WHITE);
+                graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
+                graphics.drawString("In the dark deep forest in the middle of no man's land...",40,705);
+            } else if (cutsceneCounter == 1){
+                PositionedImage image = new PositionedImage("src/Models/Crypt.jpg", 0, 0);
+                image.draw(graphics);
+                graphics.setColor(Color.WHITE);
+                graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
+                graphics.drawString("...lies the dangerous crypt, where none leaves alive...",45,705);
+            } else if (cutsceneCounter == 2) {
+                PositionedImage image = new PositionedImage("src/Models/title.jpg", 0, 0);
+                image.draw(graphics);
+                graphics.setColor(Color.WHITE);
+                graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
+                graphics.drawString("... until new hero comes to the scene!",130,705);
+                graphics.setColor(Color.BLACK);
+                graphics.fillRect(130,120,380,20);
+                graphics.setColor(Color.YELLOW);
+                graphics.setFont(new Font("Times Roman", Font.PLAIN, 50));
+                graphics.drawString("Wanderer",220,80);
+            }
+        }
     }
 
     private void drawShop(Graphics graphics) {
@@ -123,19 +158,19 @@ public class Board extends JComponent implements KeyListener {
     }
 
     private void drawPotion(Graphics graphics) {
-        PositionedImage image = new PositionedImage("src/Models/Potion.jpg", 400, 766);
+        PositionedImage image = new PositionedImage("src/Models/Potion.jpg", 100, 768);
         image.draw(graphics);
         graphics.setColor(Color.RED);
         graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
-        graphics.drawString("X" + this.map.getHero().getPotions(),445,793);
+        graphics.drawString("X" + this.map.getHero().getPotions(),145,790);
     }
 
     private void drawCoins(Graphics graphics) {
-        PositionedImage image = new PositionedImage("src/Models/coin.jpg", 400, 725);
+        PositionedImage image = new PositionedImage("src/Models/coin.jpg", 5, 768);
         image.draw(graphics);
         graphics.setColor(Color.RED);
         graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
-        graphics.drawString("X" + this.coins,445,752);
+        graphics.drawString("X" + this.coins,50,790);
     }
 
     private void drawNextLvl(Graphics graphics, Hero hero) {
@@ -203,6 +238,33 @@ public class Board extends JComponent implements KeyListener {
             graphics.drawString("Game Over!", 140, 375);
             graphics.setFont(new Font("Times Romans", Font.PLAIN, 35));
             graphics.drawString("For new game press R", 180, 420);
+            graphics.setColor(Color.WHITE);
+            graphics.fillRect(25,685,650,30);
+            Random randomNumber = new Random();
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("Times Romans", Font.PLAIN, 20));
+            int chooser = randomNumber.nextInt(10);
+            if (chooser == 0){
+                graphics.drawString("Wait what happened? Wanderer " +this.firstName + this.seCondName + " should survive!",30,705);
+            } else if (chooser == 1){
+                graphics.drawString("Wanderer " + this.firstName + this.seCondName + " was real disappointment!",30,705);
+            } else if (chooser == 2){
+                graphics.drawString("Another dead? I'm not going to tell this to wanderer's" + this.firstName + this.seCondName + " family!",30,705);
+            }else if (chooser == 3){
+                graphics.drawString("Ou really? I put my money on wanderer " + this.firstName + this.seCondName,30,705);
+            }else if (chooser == 4){
+                graphics.drawString("Yes I understand... Wanderer " + this.firstName + this.seCondName + " was just the weakeling.",30,705);
+            }else if (chooser == 5){
+                graphics.drawString("Oh my god! Wanderer " + this.firstName + this.seCondName + "was so strong and he still died?",30,705);
+            }else if (chooser == 6){
+                graphics.drawString("Ouch! That must hurt... I don't want to be in the skin of wanderer " + this.firstName + this.seCondName + "!",30,705);
+            }else if (chooser == 7){
+                graphics.drawString("And the story of wanderer " + this.firstName + this.seCondName + " is over! What a shame...",30,705);
+            }else if (chooser == 8){
+                graphics.drawString("Hopefully next one will be better than wanderer " + this.firstName + this.seCondName + ", because this was horrible!",30,705);
+            }else {
+                graphics.drawString("Booooooooooring! Wanderer " + this.firstName + this.seCondName + " deserves to die!",30,705);
+            }
         }
     }
 
@@ -253,25 +315,25 @@ public class Board extends JComponent implements KeyListener {
     private void drawBossStatus(Graphics graphics) {
         try {
             if (this.map.get(this.heroPosY - 1, this.heroPosX) instanceof Boss) {
-                graphics.drawString(this.map.get(this.heroPosY - 1, this.heroPosX).Status(), 10, 790);
+                graphics.drawString(this.map.get(this.heroPosY - 1, this.heroPosX).Status(), 10, 765);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
         }
         try {
             if (this.map.get(this.heroPosY + 1, this.heroPosX) instanceof Boss) {
-                graphics.drawString(this.map.get(this.heroPosY + 1, this.heroPosX).Status(), 10, 790);
+                graphics.drawString(this.map.get(this.heroPosY + 1, this.heroPosX).Status(), 10, 765);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
         }
         try {
             if (this.map.get(this.heroPosY, this.heroPosX - 1) instanceof Boss) {
-                graphics.drawString(this.map.get(this.heroPosY, this.heroPosX - 1).Status(), 10, 790);
+                graphics.drawString(this.map.get(this.heroPosY, this.heroPosX - 1).Status(), 10, 765);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
         }
         try {
             if (this.map.get(this.heroPosY, this.heroPosX + 1) instanceof Boss) {
-                graphics.drawString(this.map.get(this.heroPosY, this.heroPosX + 1).Status(), 10, 790);
+                graphics.drawString(this.map.get(this.heroPosY, this.heroPosX + 1).Status(), 10, 765);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
         }
@@ -398,7 +460,9 @@ public class Board extends JComponent implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_R) {
             if (map.isHeroDeath()) {
                 this.mapLvl = new MapLvl();
-                this.map = new Map(mapLvl.getLvl(),this.shop);
+                this.map = new Map(mapLvl.getLvl(),this.shop,false);
+                this.firstName = this.map.getHero().getFirstName();
+                this.seCondName = this.map.getHero().getSecondName();
                 this.testBoxY = 0;
                 this.testBoxX = 0;
                 this.heroPosX = 0;
@@ -426,8 +490,16 @@ public class Board extends JComponent implements KeyListener {
                 this.map.getHero().usePotion();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (this.shop.isOpen())
+            if (this.shop.isOpen()) {
                 this.shop.setShopStatus(false);
+            }else if (this.map.isCutScene()){
+                cutsceneCounter++;
+                if (cutsceneCounter == 3){
+                    cutsceneCounter = 0;
+                    this.map.setCutScene(false);
+                }
+            }
+
         } else if (e.getKeyCode() == KeyEvent.VK_1){
             if (this.shop.isOpen()){
                 coins =this.shop.buySword(this.coins);

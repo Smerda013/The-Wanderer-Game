@@ -63,7 +63,7 @@ public class Shop {
         if (coins >= this.healthPotionPrice){
             this.healthPointUpgrade++;
             coins = coins - this.healthPotionPrice;
-            this.healthPotionPrice = this.healthPotionPrice * this.healthPotionPrice;
+            this.healthPotionPrice = this.healthPotionPrice * 2;
             return coins;
         }
         return coins;
@@ -72,7 +72,7 @@ public class Shop {
         if (coins >= this.shieldPrice){
             this.shieldUpgrade++;
             coins = coins - this.shieldPrice;
-            this.shieldPrice = this.shieldPrice * this.shieldPrice;
+            this.shieldPrice = this.shieldPrice * 2;
             return coins;
         }
         return coins;
@@ -81,7 +81,7 @@ public class Shop {
         if (coins >= this.swordPrice) {
             this.swordUpgrade++;
             coins = coins - this.swordPrice;
-            this.swordPrice = this.swordPrice * this.swordPrice;
+            this.swordPrice = this.swordPrice * 2;
             return coins;
         }
         return coins;
@@ -91,7 +91,7 @@ public class Shop {
         if (coins >= this.vitalityTrainingPrice) {
             this.vitalityUpgrade+=10;
             coins = coins - this.vitalityTrainingPrice;
-            this.vitalityTrainingPrice = this.vitalityTrainingPrice * this.vitalityTrainingPrice;
+            this.vitalityTrainingPrice = this.vitalityTrainingPrice * 2;
             return coins;
         }
         return coins;
