@@ -128,32 +128,67 @@ public class Board extends JComponent implements KeyListener {
     }
 
     private void drawCutscene(Graphics graphics) {
-        if (this.map.isCutScene()){
+        if (this.map.isCutScene()) {
             graphics.setColor(Color.BLACK);
-            graphics.fillRect(0,720,720,90);
-            if (cutsceneCounter == 0){
-                PositionedImage image = new PositionedImage("src/Models/forest.jpg", 0, 0);
-                image.draw(graphics);
-                graphics.setColor(Color.WHITE);
-                graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
-                graphics.drawString("In the dark deep forest in the middle of no man's land...",40,705);
-            } else if (cutsceneCounter == 1){
-                PositionedImage image = new PositionedImage("src/Models/Crypt.jpg", 0, 0);
-                image.draw(graphics);
-                graphics.setColor(Color.WHITE);
-                graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
-                graphics.drawString("...lies the dangerous crypt, where none leaves alive...",45,705);
-            } else if (cutsceneCounter == 2) {
-                PositionedImage image = new PositionedImage("src/Models/title.jpg", 0, 0);
-                image.draw(graphics);
-                graphics.setColor(Color.WHITE);
-                graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
-                graphics.drawString("... until new hero comes to the scene!",130,705);
-                graphics.setColor(Color.BLACK);
-                graphics.fillRect(130,120,380,20);
-                graphics.setColor(Color.YELLOW);
-                graphics.setFont(new Font("Times Roman", Font.PLAIN, 50));
-                graphics.drawString("Wanderer",220,80);
+            graphics.fillRect(0, 720, 720, 90);
+            if (this.mapLvl.getLvl() == 1) {
+                if (cutsceneCounter == 0) {
+                    PositionedImage image = new PositionedImage("src/Models/forest.jpg", 0, 0);
+                    image.draw(graphics);
+                    graphics.setColor(Color.WHITE);
+                    graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
+                    graphics.drawString("In the dark deep forest in the middle of no man's land...", 40, 705);
+                } else if (cutsceneCounter == 1) {
+                    PositionedImage image = new PositionedImage("src/Models/Crypt.jpg", 0, 0);
+                    image.draw(graphics);
+                    graphics.setColor(Color.WHITE);
+                    graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
+                    graphics.drawString("...lies the dangerous crypt, where none leaves alive...", 45, 705);
+                } else if (cutsceneCounter == 2) {
+                    PositionedImage image = new PositionedImage("src/Models/title.jpg", 0, 0);
+                    image.draw(graphics);
+                    graphics.setColor(Color.WHITE);
+                    graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
+                    graphics.drawString("... until new hero comes to the scene!", 130, 705);
+                    graphics.setColor(Color.BLACK);
+                    graphics.fillRect(130, 120, 380, 20);
+                    graphics.setColor(Color.YELLOW);
+                    graphics.setFont(new Font("Times Roman", Font.PLAIN, 50));
+                    graphics.drawString("Wanderer", 220, 80);
+                }
+            } else if (this.mapLvl.getLvl() == 11) {
+                if (cutsceneCounter == 0) {
+                    PositionedImage image = new PositionedImage("src/Models/Death.jpg", 0, 0);
+                    image.draw(graphics);
+                    graphics.setColor(Color.BLACK);
+                    graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
+                    graphics.drawString("Wherever " + this.firstName + this.seCondName + " comes,", 5, 60);
+                    graphics.drawString("he brought just dead.", 5, 90);
+                    graphics.drawString("Why? Asking I. Is he hero or villain? ", 5, 120);
+                    graphics.drawString("Will we ever know?", 5, 150);
+                } else if (cutsceneCounter == 1) {
+                    PositionedImage image = new PositionedImage("src/Models/treasure.jpg", 0, 0);
+                    image.draw(graphics);
+                    graphics.setColor(Color.WHITE);
+                    graphics.setFont(new Font("Times Roman", Font.PLAIN, 25));
+                    graphics.drawString("What we know, that he got a big treasure.", 5, 60);
+                    graphics.drawString("And he is taking it back to home!", 5, 90);
+                    graphics.setColor(Color.RED);
+                    graphics.drawString("Wait! Did you hear that! Sound of the opening doors...", 5, 700);
+                } else if (cutsceneCounter == 2) {
+                    graphics.setColor(Color.BLACK);
+                    graphics.fillRect(0,0,720,720);
+                    graphics.setFont(new Font("Times Roman", Font.PLAIN, 70));
+                    graphics.setColor(Color.WHITE);
+                    graphics.drawString("CONGRATULATION",30,140);
+                    graphics.setFont(new Font("Times Roman", Font.PLAIN, 30));
+                    graphics.drawString("You just finish the game!",190,200);
+                    graphics.drawString("And " + this.firstName + this.seCondName + " become a master of the crypt.",30,250);
+                    graphics.drawString("But don't worry, his path is not at the end",80,550);
+                    graphics.drawString("You can continue to move into secret entrance.",50,600);
+
+
+                }
             }
         }
     }
@@ -552,7 +587,7 @@ public class Board extends JComponent implements KeyListener {
                 if (this.mapLvl.getLvl() == 5 || this.mapLvl.getLvl() == 7 || this.mapLvl.getLvl() == 10){
                     this.map.setTitle(true);
                 }
-                if (this.mapLvl.getLvl() == 11){
+                if (this.mapLvl.getLvl() == 2){
                     this.map.setCutScene(true);
                 }
                 if (this.mapLvl.getLvl() == 10){
